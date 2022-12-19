@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <iostream>
 
+#include "space/textspace.cpp"
+#include "util/fontloader.cpp"
+
 #define FONT_PATH "/Users/zoi/Library/Fonts/Cica-Regular.ttf"
 
 int main(int, char **const) {
@@ -11,27 +14,16 @@ int main(int, char **const) {
 
   SDL_Window *window = SDL_CreateWindow("ZEdit",SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI);
   SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  SDL_Surface *surface;
-  SDL_Texture *texture;
   SDL_Event ev;
+  PixelSize::init(window);
 
-  TTF_Font *font;
-
-
-  auto getDpiRate = [](SDL_Window *window) {
-    int w, pw;
-    SDL_GetWindowSize(window, &w, NULL);
-    SDL_GetWindowSizeInPixels(window, &pw, NULL);
-    return ((float)pw) / w;
-  };
-  float dpi_rate = getDpiRate(window);
-
-  font = TTF_OpenFont(FONT_PATH, 14*dpi_rate); // retina
+  FontLoader::load(FONT_PATH);
+  TextSpace textspace_test(renderer, "Hello World!", FontLoader::getFont("Cica-Regular.ttf", 14), (SDL_Color){255,255,255,255}, PixelSize(1));
   /* TTF_SetFontOutline(font, 1); // 縁取り文字*/
 
-  surface = TTF_RenderUTF8_Blended(font, "Hello World!", (SDL_Color){255,255,255,255});
+  // surface = TTF_RenderUTF8_Blended(font, "Hello World!", (SDL_Color){255,255,255,255});
 
-  texture = SDL_CreateTextureFromSurface(renderer, surface);
+  // texture = SDL_CreateTextureFromSurface(renderer, surface);
 
   bool isRunning = true;
   while(isRunning){
@@ -42,19 +34,19 @@ int main(int, char **const) {
         isRunning = false;
       }
     }
-    int iw,ih;
+    /*
+       int iw,ih;
     SDL_QueryTexture(texture, NULL, NULL, &iw, &ih);
     SDL_Rect txtRect = (SDL_Rect){0, 0, iw, ih};
-    SDL_Rect pasteRect = (SDL_Rect){0, 0, iw, ih};
-    SDL_RenderCopy(renderer, texture, &txtRect, &pasteRect);
+    SDL_Rect pasteRect = (SDL_Rect){100, 100, iw, ih};
+    SDL_RenderCopy(renderer, texture, &txtRect, &pasteRect);*/
+    textspace_test.render();
     SDL_RenderPresent(renderer);
   }
-  SDL_FreeSurface(surface);
-  SDL_DestroyTexture(texture);
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
-  TTF_CloseFont(font);
+  FontLoader::unload();
   TTF_Quit();
   return 0;
 }

@@ -1,4 +1,8 @@
+-std=c++17
+-I/usr/local/include/
+-I/opt/homebrew/include/
 -I/opt/homebrew/include/SDL2
 -D_THREAD_SAFE
 -L/opt/homebrew/lib
 -lSDL2
+-lSDL2_ttf

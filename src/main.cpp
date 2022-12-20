@@ -18,7 +18,7 @@ int main(int, char **const) {
   PixelSize::init(window);
 
   FontLoader::load(FONT_PATH);
-  TextSpace textspace_test(renderer, "Hello World!", FontLoader::getFont("Cica-Regular.ttf", 14), (SDL_Color){255,255,255,255}, PixelSize(1));
+  TextSpace textspace_test(renderer, "Hello World!aaaaaaaaaaa𠮷aaaaああああああああaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", FontLoader::getFont("Cica-Regular.ttf", 14), (SDL_Color){255,255,255,255});
   /* TTF_SetFontOutline(font, 1); // 縁取り文字*/
 
   // surface = TTF_RenderUTF8_Blended(font, "Hello World!", (SDL_Color){255,255,255,255});
